@@ -80,7 +80,18 @@ class PollReader():
             str: A string indicating the candidate with the highest polling percentage or EVEN,
              and the highest polling percentage.
         """
-        pass
+        if not self.data_dict['Harris result'] or not self.data_dict['Trump result']:
+            return "EVEN 0.0%"
+
+        max_h = max(self.data_dict['Harris result'])
+        max_t = max(self.data_dict['Trump result'])
+
+        if abs(max_h - max_t) < 1e-12:
+            return f"EVEN {max_h:.1%}"
+        elif max_h > max_t:
+            return f"Harris {max_h:.1%}"
+        else:
+            return f"Trump {max_t:.1%}"
 
 
     def likely_voter_polling_average(self):
